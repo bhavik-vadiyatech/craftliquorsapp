@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="120px" height="120px">
+  <style>
+    .wine-glass {
+      stroke: #334155;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+    .wine {
+      fill: #be123c; /* Deep rich wine red */
+      animation: fillWine 2.5s infinite ease-in-out;
+    }
+    .drop {
+      fill: #be123c;
+      animation: dropFall 1.25s infinite ease-in;
+    }
+    .drop-2 {
+      animation-delay: 0.6s;
+    }
+    @keyframes fillWine {
+      0%, 15% { transform: translateY(40px); }
+      85%, 100% { transform: translateY(0); }
+    }
+    @keyframes dropFall {
+      0% { transform: translateY(-10px); opacity: 0; }
+      30% { opacity: 1; }
+      80% { transform: translateY(30px); opacity: 1; }
+      100% { transform: translateY(35px); opacity: 0; }
+    }
+  </style>
+  
+  <!-- Bowl Clip Path to contain the liquid -->
+  <clipPath id="wine-bowl">
+    <path d="M 30 30 C 30 60, 45 70, 50 70 C 55 70, 70 60, 70 30 Z" />
+  </clipPath>
+
+  <!-- Wine inside -->
+  <g clip-path="url(#wine-bowl)">
+    <rect class="wine" x="25" y="35" width="50" height="40" />
+  </g>
+  
+  <!-- Drops falling -->
+  <circle class="drop" cx="50" cy="15" r="2.5" />
+  <circle class="drop drop-2" cx="50" cy="15" r="2.5" />
+
+  <!-- Glass Outline -->
+  <path class="wine-glass" d="M 30 30 C 30 60, 45 70, 50 70 C 55 70, 70 60, 70 30" />
+  <ellipse class="wine-glass" cx="50" cy="30" rx="20" ry="3" />
+  <line class="wine-glass" x1="50" y1="70" x2="50" y2="90" />
+  <line class="wine-glass" x1="35" y1="90" x2="65" y2="90" />
+</svg>
