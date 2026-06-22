@@ -24,8 +24,8 @@ android {
         applicationId = "com.vadiyatech.craftdiscountliquors"
         minSdk = flutter.minSdkVersion
         targetSdk = 36
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        versionCode = 1
+        versionName = "1.0"
     }
 
     compileOptions {

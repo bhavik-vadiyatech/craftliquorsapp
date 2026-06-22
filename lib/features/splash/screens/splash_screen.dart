@@ -197,15 +197,15 @@ class _SplashScreenState extends State<SplashScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Image.asset(Images.appLogo, height: 130, width: 500),
-                const SizedBox(height: Dimensions.paddingSizeSmall),
+                Image.asset(Images.appLogoWithoutText, height: 130, width: 500),
+                const SizedBox(height: Dimensions.paddingSizeExtraLarge),
 
                 Text(
                   AppConstants.appName,
                   textAlign: TextAlign.center,
-                  style: poppinsMedium.copyWith(
+                  style: poppinsBold.copyWith(
                     color: Theme.of(context).primaryColor,
-                    fontSize: 30,
+                    fontSize: 28,
                   ),
                 ),
               ],
@@ -269,7 +269,8 @@ class SplashLogoWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset(Images.appLogo, width: 100),
+          // Image.asset(Images.appLogo, width: 100),
+          Image.asset(Images.appLogoWithoutText, width: 100),
           const SizedBox(height: Dimensions.paddingSizeLarge),
         ],
       ),

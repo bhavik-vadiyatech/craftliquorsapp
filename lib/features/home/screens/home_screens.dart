@@ -305,7 +305,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
 
                       ResponsiveHelper.isMobilePhone()
-                          ? const SizedBox(height: 10)
+                          ? const SizedBox(height: 0)
                           : const SizedBox.shrink(),
 
                       AllProductListWidget(scrollController: scrollController),
