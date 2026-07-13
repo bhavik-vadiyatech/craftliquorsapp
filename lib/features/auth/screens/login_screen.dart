@@ -321,41 +321,41 @@ class _LoginFormWidget extends StatelessWidget {
                 children: [
                   if (!ResponsiveHelper.isDesktop(context))
                     const SizedBox(height: Dimensions.paddingSizeLarge),
-
                   Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(
-                        Dimensions.paddingSizeDefault,
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            Images.appLogo,
-                            height: 40,
-                            fit: BoxFit.scaleDown,
-                          ),
-                          const SizedBox(width: Dimensions.paddingSizeSmall),
-
-                          Text(
-                            getTranslated(
-                              Provider.of<SplashProvider>(
-                                context,
-                                listen: false,
-                              ).configModel?.ecommerceName,
+                    child: Image.asset(
+                      Images.appLogoWithoutText,
+                      height: 100,
+                      width: 100,
+                    ),
+                  ),
+                  const SizedBox(height: Dimensions.paddingSizeDefault),
+                  Center(
+                    child: Row(
+                      // mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Image.asset(
+                        //   Images.appLogo,
+                        //   height: 40,
+                        //   fit: BoxFit.scaleDown,
+                        // ),
+                        // const SizedBox(width: Dimensions.paddingSizeSmall),
+                        Text(
+                          getTranslated(
+                            Provider.of<SplashProvider>(
                               context,
-                            ),
-                            style: poppinsBold.copyWith(
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 30,
-                            ),
+                              listen: false,
+                            ).configModel?.ecommerceName,
+                            context,
                           ),
-                        ],
-                      ),
+                          style: poppinsBold.copyWith(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 25,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-
                   Center(
                     child: Text(
                       getTranslated('welcome_back_!', context),

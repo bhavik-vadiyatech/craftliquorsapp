@@ -4,8 +4,8 @@ import 'package:craft_discount_liquors/common/enums/app_mode_enum.dart';
 import 'images.dart';
 
 class AppConstants {
-  static const String appName = 'CraftDiscountLiquors';
-  static const double appVersion = 7.10;
+  static const String appName = 'Craft Liquors';
+  static const double appVersion = 1.0;
 
   /// Flutter Sdk : 3.41.2
   static const AppMode appMode = AppMode.release;
