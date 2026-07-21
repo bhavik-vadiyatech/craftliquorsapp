@@ -14,6 +14,8 @@ import 'package:craft_discount_liquors/features/home/providers/flash_deal_provid
 import 'package:craft_discount_liquors/features/home/widgets/all_product_list_widget.dart';
 import 'package:craft_discount_liquors/features/home/widgets/banners_widget.dart';
 import 'package:craft_discount_liquors/features/home/widgets/category_web_widget.dart';
+import 'package:craft_discount_liquors/features/home/widgets/feature_highlights_widget.dart';
+import 'package:craft_discount_liquors/features/home/widgets/promotional_cards_widget.dart';
 import 'package:craft_discount_liquors/features/home/widgets/flash_deal_home_card_widget.dart';
 import 'package:craft_discount_liquors/features/home/widgets/home_item_widget.dart';
 import 'package:craft_discount_liquors/features/order/providers/order_provider.dart';
@@ -146,6 +148,17 @@ class _HomeScreenState extends State<HomeScreen> {
         body: CustomScrollView(
           controller: scrollController,
           slivers: [
+            /// Full-bleed hero banner on desktop (spans the whole page width).
+            if (ResponsiveHelper.isDesktop(context))
+              SliverToBoxAdapter(
+                child: Consumer<BannerProvider>(
+                  builder: (context, banner, child) {
+                    return (banner.bannerList?.isEmpty ?? false)
+                        ? const SizedBox()
+                        : const BannersWidget();
+                  },
+                ),
+              ),
             SliverToBoxAdapter(
               child: Center(
                 child: SizedBox(
@@ -154,13 +167,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                      Consumer<BannerProvider>(
-                        builder: (context, banner, child) {
-                          return (banner.bannerList?.isEmpty ?? false)
-                              ? const SizedBox()
-                              : const BannersWidget();
-                        },
-                      ),
+                      /// Hero banner (mobile/tablet — kept within content width).
+                      if (!ResponsiveHelper.isDesktop(context))
+                        Consumer<BannerProvider>(
+                          builder: (context, banner, child) {
+                            return (banner.bannerList?.isEmpty ?? false)
+                                ? const SizedBox()
+                                : const BannersWidget();
+                          },
+                        ),
+
+                      /// Feature highlights (desktop trust strip)
+                      const FeatureHighlightsWidget(),
 
                       /// Category
                       Padding(
@@ -171,6 +189,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         child: const CategoryWidget(),
                       ),
+
+                      /// Promotional cards (desktop): Weekly Specials, Rewards, App
+                      const PromotionalCardsWidget(),
 
                       /// Flash Deal
                       Selector<SplashProvider, ConfigModel?>(

@@ -8,7 +8,10 @@ class ThemeProvider with ChangeNotifier {
     _loadCurrentTheme();
   }
 
-  bool _darkTheme = true;
+  // Default to light. The stored preference (see _loadCurrentTheme) or the
+  // in-app toggle can switch to dark; light must be the baseline so the app
+  // never comes up dark before/without an explicit dark selection.
+  bool _darkTheme = false;
   bool get darkTheme => _darkTheme;
 
   void toggleTheme() {

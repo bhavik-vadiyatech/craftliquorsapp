@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:craft_discount_liquors/utill/app_colors.dart';
 import 'package:craft_discount_liquors/utill/app_constants.dart';
 
 ThemeData light = ThemeData(
+  extensions: const <ThemeExtension<dynamic>>[AppColors.light],
   fontFamily: AppConstants.fontFamily,
   primaryColor: const Color(0xFFF30604),
   secondaryHeaderColor: const Color(0xFFFDF0EB),

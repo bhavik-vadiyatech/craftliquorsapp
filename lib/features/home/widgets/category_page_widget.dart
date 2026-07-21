@@ -3,13 +3,11 @@ import 'package:craft_discount_liquors/common/widgets/custom_slider_list_widget.
 import 'package:craft_discount_liquors/helper/route_helper.dart';
 import 'package:craft_discount_liquors/features/category/providers/category_provider.dart';
 import 'package:craft_discount_liquors/features/splash/providers/splash_provider.dart';
-import 'package:craft_discount_liquors/common/providers/theme_provider.dart';
 import 'package:craft_discount_liquors/localization/app_localization.dart';
+import 'package:craft_discount_liquors/utill/app_colors.dart';
 import 'package:craft_discount_liquors/utill/dimensions.dart';
 import 'package:craft_discount_liquors/utill/styles.dart';
 import 'package:craft_discount_liquors/common/widgets/custom_image_widget.dart';
-import 'package:craft_discount_liquors/common/widgets/on_hover_widget.dart';
-import 'package:craft_discount_liquors/common/widgets/text_hover_widget.dart';
 import 'package:provider/provider.dart';
 
 class CategoryWebWidget extends StatelessWidget {
@@ -20,173 +18,45 @@ class CategoryWebWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CategoryProvider>(
       builder: (context, categoryProvider, _) {
+        final int categoryCount = categoryProvider.categoryList?.length ?? 0;
+        final int visibleCount = categoryCount > 12 ? 13 : categoryCount;
+        final String? categoryImageUrl =
+            Provider.of<SplashProvider>(context, listen: false)
+                .baseUrls
+                ?.categoryImageUrl;
+
         return SizedBox(
-          height: 210,
+          height: 232,
           child: CustomSliderListWidget(
             controller: scrollController,
-            verticalPosition: 50,
-            isShowForwardButton:
-                (categoryProvider.categoryList?.length ?? 0) > 9,
+            verticalPosition: 90,
+            isShowForwardButton: categoryCount > 9,
             child: ListView.builder(
               controller: scrollController,
-              itemCount: (categoryProvider.categoryList?.length ?? 0) > 12
-                  ? 13
-                  : (categoryProvider.categoryList?.length ?? 0),
+              itemCount: visibleCount,
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                final int categoryCount =
-                    categoryProvider.categoryList?.length ?? 0;
                 final bool isLastItem = index == 12 && categoryCount > 12;
 
                 if (isLastItem) {
-                  return Container(
-                    margin: const EdgeInsets.only(
-                      top: Dimensions.paddingSizeLarge,
-                      right: Dimensions.paddingSizeDefault,
-                    ),
-                    child: InkWell(
-                      hoverColor: Colors.transparent,
-                      onTap: () {
-                        RouteHelper.getAllCategoryScreen();
-                      },
-                      child: TextHoverWidget(
-                        builder: (hovered) {
-                          return Column(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withValues(
-                                    alpha:
-                                        Provider.of<ThemeProvider>(
-                                          context,
-                                        ).darkTheme
-                                        ? 0.05
-                                        : 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Container(
-                                    height: 100,
-                                    width: 100,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      '${(categoryProvider.categoryList?.length ?? 0) - 12}+',
-                                      style: poppinsRegular.copyWith(
-                                        color: Theme.of(context).cardColor,
-                                        fontSize: Dimensions.fontSizeMaxLarge,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: Dimensions.paddingSizeSmall,
-                              ),
-                              SizedBox(
-                                width: 110,
-                                child: Text(
-                                  'view_all'.tr,
-                                  style: poppinsMedium.copyWith(
-                                    color: hovered
-                                        ? Theme.of(context).primaryColor
-                                        : Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge
-                                              ?.color
-                                              ?.withValues(alpha: 0.6),
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
+                  return _CategoryCard(
+                    name: 'view_all'.tr,
+                    imageUrl: null,
+                    remainingCount: categoryCount - 12,
+                    onTap: () => RouteHelper.getAllCategoryScreen(),
                   );
                 }
 
-                return Container(
-                  margin: const EdgeInsets.only(
-                    top: Dimensions.paddingSizeLarge,
-                    right: Dimensions.paddingSizeDefault,
-                  ),
-                  child: InkWell(
-                    hoverColor: Colors.transparent,
-                    onTap: () {
-                      RouteHelper.getCategoryProductsRoute(
-                        categoryId:
-                            '${categoryProvider.categoryList![index].id}',
-                      );
-                    },
-                    child: TextHoverWidget(
-                      builder: (hovered) {
-                        return Column(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(
-                                  alpha:
-                                      Provider.of<ThemeProvider>(
-                                        context,
-                                      ).darkTheme
-                                      ? 0.05
-                                      : 1,
-                                ),
-                                borderRadius: BorderRadius.circular(100),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: OnHoverWidget(
-                                  child: CustomImageWidget(
-                                    image:
-                                        Provider.of<SplashProvider>(
-                                              context,
-                                              listen: false,
-                                            ).baseUrls !=
-                                            null
-                                        ? '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.categoryImageUrl}/${categoryProvider.categoryList![index].image}'
-                                        : '',
-                                    height: 100,
-                                    width: 100,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: Dimensions.paddingSizeSmall),
-
-                            SizedBox(
-                              width: 110,
-                              child: Text(
-                                categoryProvider.categoryList![index].name!,
-                                style: poppinsMedium.copyWith(
-                                  color: hovered
-                                      ? Theme.of(context).primaryColor
-                                      : Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.color
-                                            ?.withValues(alpha: 0.6),
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
+                final category = categoryProvider.categoryList![index];
+                return _CategoryCard(
+                  name: category.name ?? '',
+                  imageUrl: categoryImageUrl != null
+                      ? '$categoryImageUrl/${category.image}'
+                      : null,
+                  onTap: () => RouteHelper.getCategoryProductsRoute(
+                    categoryId: '${category.id}',
+                    categoryName: category.name,
                   ),
                 );
               },
@@ -194,6 +64,130 @@ class CategoryWebWidget extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+/// Rectangular category card: image on top, name + "SHOP NOW ›" below, with a
+/// subtle lift on hover. Theme-aware. When [remainingCount] is set, renders a
+/// "view all" tile instead of a product image.
+class _CategoryCard extends StatefulWidget {
+  final String name;
+  final String? imageUrl;
+  final int? remainingCount;
+  final VoidCallback onTap;
+
+  const _CategoryCard({
+    required this.name,
+    required this.imageUrl,
+    required this.onTap,
+    this.remainingCount,
+  });
+
+  @override
+  State<_CategoryCard> createState() => _CategoryCardState();
+}
+
+class _CategoryCardState extends State<_CategoryCard> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.appColors;
+    final bool isViewAll = widget.remainingCount != null;
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          width: 150,
+          margin: const EdgeInsets.only(
+            top: Dimensions.paddingSizeLarge,
+            right: Dimensions.paddingSizeDefault,
+            bottom: Dimensions.paddingSizeSmall,
+          ),
+          transform: Matrix4.translationValues(0, _isHovered ? -6 : 0, 0),
+          decoration: BoxDecoration(
+            color: colors.surface,
+            borderRadius: BorderRadius.circular(Dimensions.radiusSizeTen),
+            border: Border.all(
+              color: _isHovered
+                  ? colors.brand.withValues(alpha: 0.35)
+                  : colors.border,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: colors.brand.withValues(alpha: _isHovered ? 0.18 : 0.06),
+                blurRadius: _isHovered ? 18 : 10,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                child: SizedBox(
+                  height: 108,
+                  width: double.infinity,
+                  child: isViewAll
+                      ? Container(
+                          decoration: BoxDecoration(
+                            color: colors.brand,
+                            shape: BoxShape.circle,
+                          ),
+                          alignment: Alignment.center,
+                          margin: const EdgeInsets.symmetric(horizontal: 24),
+                          child: Text(
+                            '${widget.remainingCount}+',
+                            style: poppinsBold.copyWith(
+                              color: colors.onBrand,
+                              fontSize: Dimensions.fontSizeExtraLarge,
+                            ),
+                          ),
+                        )
+                      : CustomImageWidget(
+                          image: widget.imageUrl ?? '',
+                          fit: BoxFit.contain,
+                        ),
+                ),
+              ),
+              Text(
+                widget.name.toUpperCase(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: poppinsSemiBold.copyWith(
+                  color: colors.heading,
+                  fontSize: Dimensions.fontSizeSmall + 1,
+                  letterSpacing: 0.3,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    isViewAll ? 'view_all'.tr.toUpperCase() : 'SHOP NOW',
+                    style: poppinsSemiBold.copyWith(
+                      color: colors.brand,
+                      fontSize: Dimensions.fontSizeExtraSmall + 1,
+                      letterSpacing: 0.3,
+                    ),
+                  ),
+                  Icon(Icons.chevron_right_rounded, color: colors.brand, size: 16),
+                ],
+              ),
+              const SizedBox(height: Dimensions.paddingSizeSmall),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

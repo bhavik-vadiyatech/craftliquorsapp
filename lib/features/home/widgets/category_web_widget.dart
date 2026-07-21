@@ -9,6 +9,7 @@ import 'package:craft_discount_liquors/features/splash/providers/splash_provider
 import 'package:craft_discount_liquors/utill/dimensions.dart';
 import 'package:craft_discount_liquors/utill/styles.dart';
 import 'package:craft_discount_liquors/common/widgets/custom_image_widget.dart';
+import 'package:craft_discount_liquors/common/widgets/section_title_widget.dart';
 import 'package:craft_discount_liquors/common/widgets/title_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -37,9 +38,13 @@ class _CategoryWidgetState extends State<CategoryWidget> {
             : (categoryProvider.categoryList?.isNotEmpty ?? false)
             ? Column(
                 children: [
-                  TitleWidget(
-                    title: getTranslated('popular_categories', context),
-                  ),
+                  ResponsiveHelper.isDesktop(context)
+                      ? SectionTitleWidget(
+                          title: getTranslated('shop_by_category', context),
+                        )
+                      : TitleWidget(
+                          title: getTranslated('popular_categories', context),
+                        ),
 
                   ResponsiveHelper.isDesktop(context)
                       ? CategoryWebWidget(scrollController: scrollController)

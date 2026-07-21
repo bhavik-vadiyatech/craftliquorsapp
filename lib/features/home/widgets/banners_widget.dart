@@ -9,6 +9,7 @@ import 'package:craft_discount_liquors/features/home/providers/banner_provider.d
 import 'package:craft_discount_liquors/features/category/providers/category_provider.dart';
 import 'package:craft_discount_liquors/features/splash/providers/splash_provider.dart';
 import 'package:craft_discount_liquors/localization/app_localization.dart';
+import 'package:craft_discount_liquors/utill/app_colors.dart';
 import 'package:craft_discount_liquors/utill/dimensions.dart';
 import 'package:craft_discount_liquors/utill/images.dart';
 import 'package:craft_discount_liquors/utill/styles.dart';
@@ -232,64 +233,79 @@ class _DesktopHeroBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.maxFinite,
-      child: bannerProvider.bannerList != null
-          ? bannerProvider.bannerList!.isNotEmpty
-              ? Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    CarouselSlider.builder(
-                      carouselController: carouselController,
-                      options: CarouselOptions(
-                        autoPlay: true,
-                        autoPlayInterval: const Duration(seconds: 6),
-                        autoPlayAnimationDuration:
-                            const Duration(milliseconds: 1200),
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        viewportFraction: 1.0,
-                        enlargeCenterPage: false,
-                        height: 480,
-                        onPageChanged: (index, reason) {
-                          Provider.of<BannerProvider>(
-                            context,
-                            listen: false,
-                          ).setCurrentIndex(index);
-                        },
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Full-width hero whose height scales with the available width (~3:1),
+        // clamped so it never becomes too short or too tall on any screen.
+        final double heroHeight =
+            (constraints.maxWidth / 3.0).clamp(380.0, 560.0);
+
+        return SizedBox(
+          width: double.maxFinite,
+          height: heroHeight,
+          child: bannerProvider.bannerList != null
+              ? bannerProvider.bannerList!.isNotEmpty
+                  ? Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        CarouselSlider.builder(
+                          carouselController: carouselController,
+                          options: CarouselOptions(
+                            autoPlay: true,
+                            autoPlayInterval: const Duration(seconds: 6),
+                            autoPlayAnimationDuration:
+                                const Duration(milliseconds: 1200),
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            viewportFraction: 1.0,
+                            enlargeCenterPage: false,
+                            height: heroHeight,
+                            onPageChanged: (index, reason) {
+                              Provider.of<BannerProvider>(
+                                context,
+                                listen: false,
+                              ).setCurrentIndex(index);
+                            },
+                          ),
+                          itemCount: bannerProvider.bannerList!.length,
+                          itemBuilder: (context, index, _) {
+                            return _HeroBannerSlide(
+                              banner: bannerProvider.bannerList![index],
+                              productList: bannerProvider.productList,
+                            );
+                          },
+                        ),
+                        Positioned(
+                          left: 24,
+                          child: _HeroArrowButton(
+                            icon: Icons.arrow_back_ios_new_rounded,
+                            onTap: () => carouselController.previousPage(),
+                          ),
+                        ),
+                        Positioned(
+                          right: 24,
+                          child: _HeroArrowButton(
+                            icon: Icons.arrow_forward_ios_rounded,
+                            onTap: () => carouselController.nextPage(),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Center(
+                      child: Text(
+                        getTranslated('no_banner_available', context),
                       ),
-                      itemCount: bannerProvider.bannerList!.length,
-                      itemBuilder: (context, index, _) {
-                        return _HeroBannerSlide(
-                          banner: bannerProvider.bannerList![index],
-                          productList: bannerProvider.productList,
-                        );
-                      },
-                    ),
-                    Positioned(
-                      left: 24,
-                      child: _HeroArrowButton(
-                        icon: Icons.arrow_back_ios_new_rounded,
-                        onTap: () => carouselController.previousPage(),
-                      ),
-                    ),
-                    Positioned(
-                      right: 24,
-                      child: _HeroArrowButton(
-                        icon: Icons.arrow_forward_ios_rounded,
-                        onTap: () => carouselController.nextPage(),
-                      ),
-                    ),
-                  ],
-                )
-              : Center(
-                  child: Text(
-                    getTranslated('no_banner_available', context),
-                  ),
-                )
-          : const BannerShimmer(),
+                    )
+              : const BannerShimmer(),
+        );
+      },
     );
   }
 }
+
+/// Soft shadow that keeps the white hero text readable over a sharp image.
+const List<Shadow> _heroTextShadow = [
+  Shadow(color: Color(0x73000000), blurRadius: 10, offset: Offset(0, 2)),
+];
 
 class _HeroBannerSlide extends StatelessWidget {
   final dynamic banner;
@@ -302,132 +318,124 @@ class _HeroBannerSlide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Stack(
       fit: StackFit.expand,
       children: [
-              CustomImageWidget(
-                placeholder: Images.placeHolder,
-                image:
-                    '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.bannerImageUrl}'
-                    '/${banner.image}',
-                fit: BoxFit.cover,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [
-                      const Color(0xFF130303).withValues(alpha: 0.75),
-                      const Color(0xFF130303).withValues(alpha: 0.4),
-                      const Color(0xFF130303).withValues(alpha: 0.1),
+        // Background banner image (backend-driven, rotates via the slider).
+        CustomImageWidget(
+          placeholder: Images.placeHolder,
+          image:
+              '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.bannerImageUrl}'
+              '/${banner.image}',
+          fit: BoxFit.cover,
+        ),
+
+        // Very subtle dark scrim on the left only — keeps the image sharp and
+        // vibrant while giving the white headline just enough contrast.
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [
+                Colors.black.withValues(alpha: 0.28),
+                Colors.black.withValues(alpha: 0.10),
+                Colors.transparent,
+              ],
+              stops: const [0.0, 0.4, 0.7],
+            ),
+          ),
+        ),
+
+        // Marketing overlay: headline + subtext + CTAs.
+        Center(
+          child: SizedBox(
+            width: Dimensions.webScreenWidth,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 470),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'YOUR PREMIUM',
+                        style: poppinsBold.copyWith(
+                          color: Colors.white,
+                          fontSize: 46,
+                          height: 1.02,
+                          letterSpacing: -0.5,
+                          shadows: _heroTextShadow,
+                        ),
+                      ),
+                      Text(
+                        'SELECTION.',
+                        style: poppinsBold.copyWith(
+                          color: Colors.white,
+                          fontSize: 46,
+                          height: 1.02,
+                          letterSpacing: -0.5,
+                          shadows: _heroTextShadow,
+                        ),
+                      ),
+                      Text(
+                        'DELIVERED.',
+                        style: poppinsBold.copyWith(
+                          color: colors.brand,
+                          fontSize: 46,
+                          height: 1.05,
+                          letterSpacing: -0.5,
+                          shadows: _heroTextShadow,
+                        ),
+                      ),
+                      const SizedBox(height: Dimensions.paddingSizeDefault),
+                      Text(
+                        'Discover the finest wines, spirits, beers & more '
+                        'from around the world — at the best prices.',
+                        style: poppinsRegular.copyWith(
+                          color: Colors.white.withValues(alpha: 0.92),
+                          fontSize: Dimensions.fontSizeLarge,
+                          height: 1.45,
+                          shadows: _heroTextShadow,
+                        ),
+                      ),
+                      const SizedBox(height: Dimensions.paddingSizeExtraLarge),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _HeroButton(
+                            label: 'shop_now'.tr.toUpperCase(),
+                            icon: Icons.shopping_bag_outlined,
+                            filled: true,
+                            onTap: () => _handleShop(context),
+                          ),
+                          const SizedBox(width: Dimensions.paddingSizeDefault),
+                          _HeroButton(
+                            label: 'WEEKLY DEALS',
+                            icon: Icons.local_offer_outlined,
+                            filled: false,
+                            onTap: () => _openDeals(context),
+                          ),
+                        ],
+                      ),
                     ],
-                    stops: const [0.0, 0.45, 1.0],
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 100,
-                  vertical: 50,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF30604),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        'NEW ARRIVAL',
-                        style: poppinsSemiBold.copyWith(
-                          color: Colors.white,
-                          fontSize: 12,
-                          letterSpacing: 1.5,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    if (banner.title != null && banner.title!.isNotEmpty)
-                      Text(
-                        banner.title!,
-                        style: poppinsBold.copyWith(
-                          color: Colors.white,
-                          fontSize: 42,
-                          height: 1.1,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withValues(alpha: 0.4),
-                              blurRadius: 12,
-                            ),
-                          ],
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    else
-                      Text(
-                        'Craft Discount\nLiquors',
-                        style: poppinsBold.copyWith(
-                          color: Colors.white,
-                          fontSize: 42,
-                          height: 1.1,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withValues(alpha: 0.4),
-                              blurRadius: 12,
-                            ),
-                          ],
-                        ),
-                      ),
-                    const SizedBox(height: 28),
-                    InkWell(
-                      onTap: () => _handleTap(context),
-                      borderRadius: BorderRadius.circular(30),
-                      child: Container(
-                        width: 140,
-                        height: 42,
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFFF30604), Color(0xFFD90402)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(30),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFFF30604).withValues(
-                                alpha: 0.4,
-                              ),
-                              blurRadius: 12,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          'shop_now'.tr,
-                          style: poppinsSemiBold.copyWith(
-                            color: Colors.white,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
-  void _handleTap(BuildContext context) {
+  /// SHOP NOW — route to the banner's linked product/category if present,
+  /// otherwise fall back to the all-categories screen.
+  void _handleShop(BuildContext context) {
     if (banner.productId != null) {
       Product? product;
       for (Product prod in productList) {
@@ -438,21 +446,114 @@ class _HeroBannerSlide extends StatelessWidget {
       }
       if (product != null) {
         RouteHelper.getProductDetailsRoute(productId: product.id);
+        return;
       }
     } else if (banner.categoryId != null) {
-      CategoryModel? category;
-      for (CategoryModel categoryModel
-          in Provider.of<CategoryProvider>(context, listen: false)
-              .categoryList!) {
-        if (categoryModel.id == banner.categoryId) {
-          category = categoryModel;
-          break;
+      final categoryList =
+          Provider.of<CategoryProvider>(context, listen: false).categoryList;
+      if (categoryList != null) {
+        for (final CategoryModel category in categoryList) {
+          if (category.id == banner.categoryId) {
+            RouteHelper.getCategoryProductsRoute(categoryId: '${category.id}');
+            return;
+          }
         }
       }
-      if (category != null) {
-        RouteHelper.getCategoryProductsRoute(categoryId: '${category.id}');
+    }
+    RouteHelper.getAllCategoryScreen();
+  }
+
+  /// WEEKLY DEALS — route to a "deals" category when one exists, otherwise the
+  /// all-categories screen (kept consistent with the header DEALS item).
+  void _openDeals(BuildContext context) {
+    final categoryList =
+        Provider.of<CategoryProvider>(context, listen: false).categoryList;
+    if (categoryList != null) {
+      for (final CategoryModel category in categoryList) {
+        if ((category.name ?? '').toLowerCase().contains('deal')) {
+          RouteHelper.getCategoryProductsRoute(
+            categoryId: '${category.id}',
+            categoryName: category.name,
+          );
+          return;
+        }
       }
     }
+    RouteHelper.getAllCategoryScreen();
+  }
+}
+
+/// Hero call-to-action button. [filled] renders a solid red button; otherwise
+/// an outlined button that fills red on hover.
+class _HeroButton extends StatefulWidget {
+  final String label;
+  final IconData icon;
+  final bool filled;
+  final VoidCallback onTap;
+
+  const _HeroButton({
+    required this.label,
+    required this.icon,
+    required this.filled,
+    required this.onTap,
+  });
+
+  @override
+  State<_HeroButton> createState() => _HeroButtonState();
+}
+
+class _HeroButtonState extends State<_HeroButton> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.appColors;
+    final bool solid = widget.filled || _isHovered;
+    final Color fg = solid ? colors.onBrand : colors.brand;
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          height: 48,
+          padding: const EdgeInsets.symmetric(horizontal: 22),
+          decoration: BoxDecoration(
+            color: solid ? colors.brand : colors.surface,
+            borderRadius: BorderRadius.circular(Dimensions.radiusSizeDefault),
+            border: Border.all(color: colors.brand, width: 1.5),
+            boxShadow: solid
+                ? [
+                    BoxShadow(
+                      color: colors.brand.withValues(alpha: 0.35),
+                      blurRadius: 14,
+                      offset: const Offset(0, 6),
+                    ),
+                  ]
+                : null,
+          ),
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(widget.icon, size: 18, color: fg),
+              const SizedBox(width: Dimensions.paddingSizeSmall),
+              Text(
+                widget.label,
+                style: poppinsSemiBold.copyWith(
+                  color: fg,
+                  fontSize: Dimensions.fontSizeDefault,
+                  letterSpacing: 0.5,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -464,6 +565,7 @@ class _HeroArrowButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
@@ -472,21 +574,17 @@ class _HeroArrowButton extends StatelessWidget {
           width: 50,
           height: 50,
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.95),
+            color: colors.surface.withValues(alpha: 0.95),
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFFF30604).withValues(alpha: 0.25),
+                color: colors.brand.withValues(alpha: 0.25),
                 blurRadius: 16,
                 offset: const Offset(0, 6),
               ),
             ],
           ),
-          child: Icon(
-            icon,
-            color: const Color(0xFFF30604),
-            size: 20,
-          ),
+          child: Icon(icon, color: colors.brand, size: 20),
         ),
       ),
     );

@@ -11,6 +11,7 @@ import 'package:craft_discount_liquors/localization/language_constraints.dart';
 import 'package:craft_discount_liquors/common/providers/cart_provider.dart';
 import 'package:craft_discount_liquors/features/splash/providers/splash_provider.dart';
 import 'package:craft_discount_liquors/utill/color_resources.dart';
+import 'package:craft_discount_liquors/utill/app_colors.dart';
 import 'package:craft_discount_liquors/utill/dimensions.dart';
 import 'package:craft_discount_liquors/utill/styles.dart';
 import 'package:craft_discount_liquors/common/widgets/custom_directionality_widget.dart';
@@ -186,14 +187,14 @@ class ProductWidget extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        color: Colors.white,
+                        color: context.appColors.surface,
                         border: Border.all(
-                          color: const Color(0xFFF5E6E6),
+                          color: context.appColors.border,
                           width: 1,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFFF30604).withValues(alpha: 0.08),
+                            color: context.appColors.brand.withValues(alpha: 0.08),
                             offset: const Offset(0, 4),
                             blurRadius: 12,
                             spreadRadius: 0,
@@ -207,11 +208,11 @@ class ProductWidget extends StatelessWidget {
                               Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: const Color(0xFFF5E6E6),
+                                    color: context.appColors.border,
                                     width: 1,
                                   ),
                                   borderRadius: BorderRadius.circular(12),
-                                  color: Colors.white,
+                                  color: context.appColors.surface,
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
@@ -586,7 +587,7 @@ class ProductWidget extends StatelessWidget {
                                         product.name ?? '',
                                         style: poppinsRegular.copyWith(
                                           fontSize: Dimensions.fontSizeSmall,
-                                          color: const Color(0xFF130303),
+                                          color: context.appColors.heading,
                                         ),
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
@@ -647,7 +648,7 @@ class ProductWidget extends StatelessWidget {
                                               style: poppinsSemiBold.copyWith(
                                                 fontSize:
                                                     Dimensions.fontSizeDefault,
-                                                color: const Color(0xFFF30604),
+                                                color: context.appColors.brand,
                                               ),
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
@@ -719,15 +720,15 @@ class _ProductGridWidget extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.appColors.surface,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: const Color(0xFFF5E6E6),
+            color: context.appColors.border,
             width: 1,
           ),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFF30604).withValues(alpha: 0.08),
+              color: context.appColors.brand.withValues(alpha: 0.08),
               offset: const Offset(0, 4),
               blurRadius: 12,
               spreadRadius: 0,
@@ -774,7 +775,7 @@ class _ProductGridWidget extends StatelessWidget {
                               Radius.circular(12),
                             ),
                             border: Border.all(
-                              color: const Color(0xFFF5E6E6),
+                              color: context.appColors.border,
                               width: 1,
                             ),
                           ),
@@ -857,7 +858,7 @@ class _ProductGridWidget extends StatelessWidget {
                               product.name ?? '',
                               style: poppinsMedium.copyWith(
                                 fontSize: Dimensions.fontSizeDefault,
-                                color: const Color(0xFF130303),
+                                color: context.appColors.heading,
                               ),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
@@ -878,7 +879,7 @@ class _ProductGridWidget extends StatelessWidget {
                               Divider(
                                 height: 2,
                                 thickness: 2,
-                                color: const Color(0xFFF5E6E6),
+                                color: context.appColors.border,
                               ),
                             const SizedBox(
                               height: Dimensions.paddingSizeExtraSmall,
@@ -944,7 +945,7 @@ class _ProductGridWidget extends StatelessWidget {
                                                       ? Dimensions.fontSizeSmall
                                                       : Dimensions
                                                             .fontSizeDefault,
-                                                  color: const Color(0xFFF30604),
+                                                  color: context.appColors.brand,
                                                 ),
                                                 text:
                                                     PriceConverterHelper.convertPrice(
