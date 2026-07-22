@@ -48,6 +48,9 @@ class AppColors extends ThemeExtension<AppColors> {
   /// Text/icon colour on [darkPanel] — constant white.
   final Color onDarkPanel;
 
+  /// Soft neutral shadow colour for premium card elevation (theme-aware).
+  final Color shadow;
+
   const AppColors({
     required this.brand,
     required this.brandDark,
@@ -62,6 +65,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.heroScrim,
     required this.darkPanel,
     required this.onDarkPanel,
+    required this.shadow,
   });
 
   static const AppColors light = AppColors(
@@ -78,6 +82,7 @@ class AppColors extends ThemeExtension<AppColors> {
     heroScrim: Colors.white,
     darkPanel: Color(0xFF130303),
     onDarkPanel: Colors.white,
+    shadow: Color(0x14100404), // ~8% warm black
   );
 
   static const AppColors dark = AppColors(
@@ -94,6 +99,7 @@ class AppColors extends ThemeExtension<AppColors> {
     heroScrim: Color(0xFF1A1111),
     darkPanel: Color(0xFF2A1C1C),
     onDarkPanel: Colors.white,
+    shadow: Color(0x66000000), // ~40% black
   );
 
   @override
@@ -111,6 +117,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? heroScrim,
     Color? darkPanel,
     Color? onDarkPanel,
+    Color? shadow,
   }) {
     return AppColors(
       brand: brand ?? this.brand,
@@ -126,6 +133,7 @@ class AppColors extends ThemeExtension<AppColors> {
       heroScrim: heroScrim ?? this.heroScrim,
       darkPanel: darkPanel ?? this.darkPanel,
       onDarkPanel: onDarkPanel ?? this.onDarkPanel,
+      shadow: shadow ?? this.shadow,
     );
   }
 
@@ -146,6 +154,7 @@ class AppColors extends ThemeExtension<AppColors> {
       heroScrim: Color.lerp(heroScrim, other.heroScrim, t)!,
       darkPanel: Color.lerp(darkPanel, other.darkPanel, t)!,
       onDarkPanel: Color.lerp(onDarkPanel, other.onDarkPanel, t)!,
+      shadow: Color.lerp(shadow, other.shadow, t)!,
     );
   }
 }

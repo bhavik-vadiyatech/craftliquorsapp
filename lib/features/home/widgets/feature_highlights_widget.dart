@@ -50,20 +50,22 @@ class FeatureHighlightsWidget extends StatelessWidget {
     return Center(
       child: Container(
         width: Dimensions.webScreenWidth,
-        margin: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeLarge),
+        margin: const EdgeInsets.symmetric(
+          vertical: Dimensions.paddingSizeExtraLarge,
+        ),
         padding: const EdgeInsets.symmetric(
-          vertical: Dimensions.paddingSizeLarge,
+          vertical: Dimensions.paddingSizeExtraLarge,
           horizontal: Dimensions.paddingSizeSmall,
         ),
         decoration: BoxDecoration(
           color: colors.surface,
-          borderRadius: BorderRadius.circular(Dimensions.radiusSizeTen),
+          borderRadius: BorderRadius.circular(18),
           border: Border.all(color: colors.border),
           boxShadow: [
             BoxShadow(
-              color: colors.brand.withValues(alpha: 0.06),
-              blurRadius: 18,
-              offset: const Offset(0, 6),
+              color: colors.shadow,
+              blurRadius: 30,
+              offset: const Offset(0, 12),
             ),
           ],
         ),

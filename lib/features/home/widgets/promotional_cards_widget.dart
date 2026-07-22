@@ -28,7 +28,9 @@ class PromotionalCardsWidget extends StatelessWidget {
     return Center(
       child: Container(
         width: Dimensions.webScreenWidth,
-        margin: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeLarge),
+        margin: const EdgeInsets.symmetric(
+          vertical: Dimensions.paddingSizeExtraLarge,
+        ),
         child: IntrinsicHeight(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -51,13 +53,13 @@ BoxDecoration _cardDecoration(BuildContext context, Color color,
   final colors = context.appColors;
   return BoxDecoration(
     color: color,
-    borderRadius: BorderRadius.circular(Dimensions.radiusSizeTen),
+    borderRadius: BorderRadius.circular(18),
     border: border ? Border.all(color: colors.border) : null,
     boxShadow: [
       BoxShadow(
-        color: colors.brand.withValues(alpha: 0.06),
-        blurRadius: 14,
-        offset: const Offset(0, 6),
+        color: colors.shadow,
+        blurRadius: 26,
+        offset: const Offset(0, 12),
       ),
     ],
   );

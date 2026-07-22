@@ -193,6 +193,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       /// Promotional cards (desktop): Weekly Specials, Rewards, App
                       const PromotionalCardsWidget(),
 
+                      /// Extra breathing room before the product sections (desktop)
+                      if (ResponsiveHelper.isDesktop(context))
+                        const SizedBox(height: Dimensions.paddingSizeLarge),
+
                       /// Flash Deal
                       Selector<SplashProvider, ConfigModel?>(
                         selector: (ctx, splashProvider) =>

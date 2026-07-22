@@ -318,7 +318,9 @@ class _HeroBannerSlide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.appColors;
+    // TEMP: `colors` is only used by the hero text overlay, which is disabled
+    // for testing below. Uncomment when the overlay block is restored.
+    // final colors = context.appColors;
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -348,6 +350,11 @@ class _HeroBannerSlide extends StatelessWidget {
           ),
         ),
 
+        // --- TEMPORARILY DISABLED (testing): hero text overlay + CTA buttons.
+        // To restore: delete the SizedBox.shrink() below, uncomment the block,
+        // and re-enable `final colors = context.appColors;` at the top of build.
+        const SizedBox.shrink(),
+        /*
         // Marketing overlay: headline + subtext + CTAs.
         Center(
           child: SizedBox(
@@ -429,6 +436,7 @@ class _HeroBannerSlide extends StatelessWidget {
             ),
           ),
         ),
+        */
       ],
     );
   }

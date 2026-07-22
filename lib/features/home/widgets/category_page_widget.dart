@@ -110,10 +110,10 @@ class _CategoryCardState extends State<_CategoryCard> {
             right: Dimensions.paddingSizeDefault,
             bottom: Dimensions.paddingSizeSmall,
           ),
-          transform: Matrix4.translationValues(0, _isHovered ? -6 : 0, 0),
+          transform: Matrix4.translationValues(0, _isHovered ? -8 : 0, 0),
           decoration: BoxDecoration(
             color: colors.surface,
-            borderRadius: BorderRadius.circular(Dimensions.radiusSizeTen),
+            borderRadius: BorderRadius.circular(18),
             border: Border.all(
               color: _isHovered
                   ? colors.brand.withValues(alpha: 0.35)
@@ -121,10 +121,16 @@ class _CategoryCardState extends State<_CategoryCard> {
             ),
             boxShadow: [
               BoxShadow(
-                color: colors.brand.withValues(alpha: _isHovered ? 0.18 : 0.06),
-                blurRadius: _isHovered ? 18 : 10,
-                offset: const Offset(0, 6),
+                color: colors.shadow,
+                blurRadius: _isHovered ? 28 : 16,
+                offset: Offset(0, _isHovered ? 16 : 8),
               ),
+              if (_isHovered)
+                BoxShadow(
+                  color: colors.brand.withValues(alpha: 0.16),
+                  blurRadius: 24,
+                  offset: const Offset(0, 10),
+                ),
             ],
           ),
           child: Column(

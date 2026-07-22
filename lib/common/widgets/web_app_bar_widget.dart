@@ -63,9 +63,9 @@ class _WebAppBarWidgetState extends State<WebAppBarWidget> {
         color: colors.surface,
         boxShadow: [
           BoxShadow(
-            color: colors.brand.withValues(alpha: 0.08),
-            blurRadius: 16,
-            offset: const Offset(0, 4),
+            color: colors.shadow,
+            blurRadius: 24,
+            offset: const Offset(0, 6),
           ),
         ],
       ),

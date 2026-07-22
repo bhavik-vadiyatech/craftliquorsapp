@@ -194,9 +194,9 @@ class ProductWidget extends StatelessWidget {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: context.appColors.brand.withValues(alpha: 0.08),
-                            offset: const Offset(0, 4),
-                            blurRadius: 12,
+                            color: context.appColors.shadow,
+                            offset: const Offset(0, 8),
+                            blurRadius: 20,
                             spreadRadius: 0,
                           ),
                         ],
@@ -728,9 +728,9 @@ class _ProductGridWidget extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: context.appColors.brand.withValues(alpha: 0.08),
-              offset: const Offset(0, 4),
-              blurRadius: 12,
+              color: context.appColors.shadow,
+              offset: const Offset(0, 8),
+              blurRadius: 20,
               spreadRadius: 0,
             ),
           ],

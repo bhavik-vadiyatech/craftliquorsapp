@@ -27,17 +27,18 @@ class SectionTitleWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _line(colors.brand),
-          const SizedBox(width: Dimensions.paddingSizeDefault),
+          const SizedBox(width: Dimensions.paddingSizeLarge),
           Text(
             title.toUpperCase(),
             textAlign: TextAlign.center,
             style: poppinsBold.copyWith(
               color: colors.heading,
-              fontSize: Dimensions.fontSizeOverLarge,
-              letterSpacing: 0.5,
+              fontSize: Dimensions.fontSizeOverLarge + 2,
+              letterSpacing: 1.8,
+              height: 1.1,
             ),
           ),
-          const SizedBox(width: Dimensions.paddingSizeDefault),
+          const SizedBox(width: Dimensions.paddingSizeLarge),
           _line(colors.brand),
         ],
       ),
