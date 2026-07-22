@@ -35,6 +35,11 @@ class CustomImageWidget extends StatelessWidget {
       height: height,
       width: width,
       fit: fit,
+      // Smoother interpolation than the default (FilterQuality.low). This does
+      // not add detail — it only makes the unavoidable upscaling of low-res
+      // source images look slightly cleaner. The real fix is higher-resolution
+      // images on the backend (see notes).
+      filterQuality: FilterQuality.medium,
       placeholder: (context, url) => CustomAssetImageWidget(
         placeholderImage,
         height: height,

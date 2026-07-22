@@ -3,7 +3,9 @@ import 'package:craft_discount_liquors/common/enums/footer_type_enum.dart';
 import 'package:craft_discount_liquors/common/enums/html_type_enum.dart';
 import 'package:craft_discount_liquors/common/widgets/custom_image_widget.dart';
 import 'package:craft_discount_liquors/common/widgets/custom_pop_scope_handel_deep_link_widget.dart';
+import 'package:craft_discount_liquors/features/html/widgets/about_us_view_widget.dart';
 import 'package:craft_discount_liquors/helper/responsive_helper.dart';
+import 'package:craft_discount_liquors/utill/app_colors.dart';
 import 'package:craft_discount_liquors/localization/app_localization.dart';
 import 'package:craft_discount_liquors/features/splash/providers/splash_provider.dart';
 import 'package:craft_discount_liquors/utill/dimensions.dart';
@@ -71,18 +73,34 @@ class HtmlViewerScreen extends StatelessWidget {
       data = data.replaceAll('href=', 'target="_blank" href=');
     }
 
+    final PreferredSizeWidget? appBar =
+        (ResponsiveHelper.isDesktop(context)
+                ? const PreferredSize(
+                    preferredSize: Size.fromHeight(120),
+                    child: WebAppBarWidget(),
+                  )
+                : ResponsiveHelper.isMobilePhone()
+                ? null
+                : AppBarBaseWidget(title: appBarText.tr))
+            as PreferredSizeWidget?;
+
+    // Premium About Us layout (other CMS pages keep the default viewer).
+    if (htmlType == HtmlType.aboutUs) {
+      return CustomPopScopeHandelDeepLinkWidget(
+        child: Scaffold(
+          backgroundColor: context.appColors.sectionBackground,
+          appBar: appBar,
+          body: AboutUsViewWidget(
+            htmlDescription: data,
+            imageUrl: imageUrl,
+          ),
+        ),
+      );
+    }
+
     return CustomPopScopeHandelDeepLinkWidget(
       child: Scaffold(
-        appBar:
-            (ResponsiveHelper.isDesktop(context)
-                    ? const PreferredSize(
-                        preferredSize: Size.fromHeight(120),
-                        child: WebAppBarWidget(),
-                      )
-                    : ResponsiveHelper.isMobilePhone()
-                    ? null
-                    : AppBarBaseWidget(title: appBarText.tr))
-                as PreferredSizeWidget?,
+        appBar: appBar,
         body: SingleChildScrollView(
           child: Column(
             children: [
