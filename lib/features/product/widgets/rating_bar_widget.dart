@@ -30,14 +30,14 @@ class RatingBarWidget extends StatelessWidget {
                 Icon(Icons.star, color: ColorResources.ratingColor, size: size),
                 ClipRect(
                   clipper: _Clipper(part: partNumber),
-                  child: Icon(Icons.star, color: Colors.grey, size: size),
+                  child: Icon(Icons.star, color: Theme.of(context).disabledColor, size: size),
                 ),
               ],
             ),
           ),
         );
       } else {
-        starList.add(Icon(Icons.star, color: Colors.grey, size: size));
+        starList.add(Icon(Icons.star, color: Theme.of(context).disabledColor, size: size));
       }
     }
 

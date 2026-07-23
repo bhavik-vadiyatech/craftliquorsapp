@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:craft_discount_liquors/utill/app_colors.dart';
 import 'package:craft_discount_liquors/common/providers/cart_provider.dart';
 import 'package:craft_discount_liquors/common/widgets/search_filter_widget.dart';
 import 'package:craft_discount_liquors/features/category/providers/category_provider.dart';
@@ -54,7 +55,7 @@ class CustomAppBarWidget extends StatelessWidget
                 title!,
                 style: poppinsMedium.copyWith(
                   fontSize: Dimensions.fontSizeLarge,
-                  color: const Color(0xFF130303),
+                  color: context.appColors.heading,
                 ),
               ),
               subTitle ?? const SizedBox(),

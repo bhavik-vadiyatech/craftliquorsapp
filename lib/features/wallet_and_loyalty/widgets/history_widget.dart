@@ -186,13 +186,14 @@ class WalletHistory extends StatelessWidget {
 class CustomLayoutDivider extends StatelessWidget {
   final double height;
   final double dashWidth;
-  final Color color;
+  /// Defaults to the active theme's divider colour so it stays visible in dark.
+  final Color? color;
   final Axis axis;
   const CustomLayoutDivider({
     super.key,
     this.height = 1,
     this.dashWidth = 5,
-    this.color = Colors.black,
+    this.color,
     this.axis = Axis.horizontal,
   });
 
@@ -210,7 +211,11 @@ class CustomLayoutDivider extends StatelessWidget {
             return SizedBox(
               width: dashWidth,
               height: dashHeight,
-              child: DecoratedBox(decoration: BoxDecoration(color: color)),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: color ?? Theme.of(context).dividerColor,
+                ),
+              ),
             );
           }),
         );

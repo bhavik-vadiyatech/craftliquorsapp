@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:craft_discount_liquors/utill/app_colors.dart';
 import 'package:craft_discount_liquors/helper/route_helper.dart';
 import 'package:craft_discount_liquors/localization/app_localization.dart';
 import 'package:craft_discount_liquors/features/auth/providers/auth_provider.dart';
@@ -148,8 +149,8 @@ class _MenuBarWidget extends StatelessWidget {
         backgroundColor: Colors.transparent,
         gradient: false,
         goBackButtonText: 'Back',
-        textStyle: const TextStyle(
-          color: Color(0xFF130303),
+        textStyle: TextStyle(
+          color: context.appColors.heading,
         ),
         moreIconColor: const Color(0xFFF30604),
         menuIconColor: const Color(0xFFF30604),

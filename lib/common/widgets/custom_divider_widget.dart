@@ -4,7 +4,9 @@ class CustomDividerWidget extends StatelessWidget {
   final double height;
   final double width;
   final Color? color;
-  const CustomDividerWidget({super.key, this.height = 1, this.color = Colors.black, this.width = 5.0});
+  /// [color] defaults to the active theme's divider colour so dashed dividers
+  /// stay visible in both light and dark themes.
+  const CustomDividerWidget({super.key, this.height = 1, this.color, this.width = 5.0});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,9 @@ class CustomDividerWidget extends StatelessWidget {
               width: dashWidth,
               height: dashHeight,
               child: DecoratedBox(
-                decoration: BoxDecoration(color: color),
+                decoration: BoxDecoration(
+                  color: color ?? Theme.of(context).dividerColor,
+                ),
               ),
             );
           }),

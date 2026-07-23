@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../common/widgets/custom_image_widget.dart';
 import '../../../common/widgets/on_hover_widget.dart';
+import '../../../utill/app_colors.dart';
 import '../../../utill/dimensions.dart';
 import '../../../utill/styles.dart';
 import '../../category/providers/category_provider.dart';
@@ -31,7 +32,7 @@ class CategorySidebar extends StatelessWidget {
           width: 1,
           color: Theme.of(context).disabledColor.withAlpha(20)
         ),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), offset: const Offset(0, 4), blurRadius: 7, spreadRadius: 0.1)],
+        boxShadow: [BoxShadow(color: context.appColors.shadow, offset: const Offset(0, 4), blurRadius: 7, spreadRadius: 0.1)],
 
       ),
       child: categoryProvider.categoryList != null

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:craft_discount_liquors/common/widgets/text_hover_widget.dart';
 import 'package:craft_discount_liquors/helper/responsive_helper.dart';
 import 'package:craft_discount_liquors/localization/app_localization.dart';
+import 'package:craft_discount_liquors/utill/app_colors.dart';
 import 'package:craft_discount_liquors/utill/dimensions.dart';
 import 'package:craft_discount_liquors/utill/styles.dart';
 
@@ -31,7 +32,7 @@ class TitleWidget extends StatelessWidget {
                 width: 4,
                 height: 24,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF30604),
+                  color: context.appColors.brand,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -42,7 +43,7 @@ class TitleWidget extends StatelessWidget {
                   fontSize: ResponsiveHelper.isDesktop(context)
                       ? Dimensions.fontSizeExtraLarge
                       : Dimensions.fontSizeLarge,
-                  color: const Color(0xFF130303),
+                  color: context.appColors.heading,
                 ),
               ),
             ],

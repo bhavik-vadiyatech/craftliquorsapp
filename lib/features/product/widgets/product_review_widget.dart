@@ -7,6 +7,7 @@ import 'package:craft_discount_liquors/helper/responsive_helper.dart';
 import 'package:craft_discount_liquors/helper/route_helper.dart';
 import 'package:craft_discount_liquors/localization/language_constraints.dart';
 import 'package:craft_discount_liquors/features/splash/providers/splash_provider.dart';
+import 'package:craft_discount_liquors/utill/app_colors.dart';
 import 'package:craft_discount_liquors/utill/color_resources.dart';
 import 'package:craft_discount_liquors/utill/dimensions.dart';
 import 'package:craft_discount_liquors/utill/styles.dart';
@@ -181,7 +182,7 @@ class _ReviewImageWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(Dimensions.radiusSizeSmall),
         border: Border.all(
           width: 1,
-          color: Colors.black.withValues(alpha: 0.03),
+          color: context.appColors.border,
         ),
       ),
       child: InkWell(
@@ -247,7 +248,7 @@ class ReviewShimmer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipOval(
-                  child: Container(height: 50, width: 50, color: Colors.white),
+                  child: Container(height: 50, width: 50, color: Theme.of(context).shadowColor),
                 ),
                 const SizedBox(width: Dimensions.paddingSizeExtraSmall),
                 Expanded(
@@ -260,9 +261,9 @@ class ReviewShimmer extends StatelessWidget {
                           Container(
                             height: 16,
                             width: 100,
-                            color: Colors.white,
+                            color: Theme.of(context).shadowColor,
                           ),
-                          Container(height: 14, width: 80, color: Colors.white),
+                          Container(height: 14, width: 80, color: Theme.of(context).shadowColor),
                         ],
                       ),
                       const SizedBox(height: Dimensions.paddingSizeSmall),
@@ -276,7 +277,7 @@ class ReviewShimmer extends StatelessWidget {
                           const SizedBox(
                             width: Dimensions.paddingSizeExtraSmall,
                           ),
-                          Container(height: 14, width: 20, color: Colors.white),
+                          Container(height: 14, width: 20, color: Theme.of(context).shadowColor),
                         ],
                       ),
                       SizedBox(
@@ -287,7 +288,7 @@ class ReviewShimmer extends StatelessWidget {
                       Container(
                         height: 14,
                         width: double.infinity,
-                        color: Colors.white,
+                        color: Theme.of(context).shadowColor,
                       ),
                       const SizedBox(height: Dimensions.radiusSizeDefault),
                       CustomSingleChildListWidget(
@@ -304,7 +305,7 @@ class ReviewShimmer extends StatelessWidget {
                               ),
                               border: Border.all(
                                 width: 1,
-                                color: Colors.black.withValues(alpha: 0.03),
+                                color: context.appColors.border,
                               ),
                             ),
                             child: ClipRRect(
@@ -314,7 +315,7 @@ class ReviewShimmer extends StatelessWidget {
                               child: Container(
                                 width: 75,
                                 height: 75,
-                                color: Colors.white,
+                                color: Theme.of(context).shadowColor,
                               ),
                             ),
                           );

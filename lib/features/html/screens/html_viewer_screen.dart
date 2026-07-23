@@ -4,6 +4,7 @@ import 'package:craft_discount_liquors/common/enums/html_type_enum.dart';
 import 'package:craft_discount_liquors/common/widgets/custom_image_widget.dart';
 import 'package:craft_discount_liquors/common/widgets/custom_pop_scope_handel_deep_link_widget.dart';
 import 'package:craft_discount_liquors/features/html/widgets/about_us_view_widget.dart';
+import 'package:craft_discount_liquors/features/html/widgets/policy_page_view_widget.dart';
 import 'package:craft_discount_liquors/helper/responsive_helper.dart';
 import 'package:craft_discount_liquors/utill/app_colors.dart';
 import 'package:craft_discount_liquors/localization/app_localization.dart';
@@ -83,6 +84,42 @@ class HtmlViewerScreen extends StatelessWidget {
                 ? null
                 : AppBarBaseWidget(title: appBarText.tr))
             as PreferredSizeWidget?;
+
+    // Shared premium legal-page layout (Privacy Policy + Terms & Conditions).
+    // Other CMS pages keep the default viewer.
+    if (htmlType == HtmlType.privacyPolicy ||
+        htmlType == HtmlType.termsAndCondition) {
+      final bool isTerms = htmlType == HtmlType.termsAndCondition;
+      return CustomPopScopeHandelDeepLinkWidget(
+        child: Scaffold(
+          backgroundColor: context.appColors.sectionBackground,
+          appBar: appBar,
+          body: PolicyPageViewWidget(
+            title: appBarText.tr,
+            subtitle: isTerms
+                ? 'Please read these terms carefully before using our website '
+                    'and services.'
+                : 'Your privacy and personal information are important to us. '
+                    'Learn how Craft Liquors collects, uses, and protects '
+                    'your data.',
+            bannerTitle:
+                isTerms ? 'Clear terms, fair service' : 'Your data, protected',
+            bannerSubtitle: isTerms
+                ? 'Transparent policies for a premium shopping experience.'
+                : 'Secure shopping and responsible handling of your '
+                    'information.',
+            bannerIcon: isTerms
+                ? Icons.verified_user_outlined
+                : Icons.shield_outlined,
+            ctaTitle: isTerms
+                ? 'Need help understanding our Terms?'
+                : 'Questions about our Privacy Policy?',
+            htmlDescription: data,
+            imageUrl: imageUrl,
+          ),
+        ),
+      );
+    }
 
     // Premium About Us layout (other CMS pages keep the default viewer).
     if (htmlType == HtmlType.aboutUs) {

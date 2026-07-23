@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:craft_discount_liquors/utill/app_colors.dart';
 import 'package:craft_discount_liquors/utill/styles.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -571,7 +572,7 @@ class _HeaderWidget extends StatelessWidget {
           getTranslated('filter', context),
           textAlign: TextAlign.center,
           style: poppinsSemiBold.copyWith(
-            color: const Color(0xFF130303),
+            color: context.appColors.heading,
             fontSize: Dimensions.fontSizeLarge,
           ),
         ),

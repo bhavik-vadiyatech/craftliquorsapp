@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:craft_discount_liquors/utill/app_colors.dart';
 import 'package:craft_discount_liquors/common/enums/footer_type_enum.dart';
 import 'package:craft_discount_liquors/common/widgets/custom_app_bar_widget.dart';
 import 'package:craft_discount_liquors/common/widgets/custom_pop_scope_handel_deep_link_widget.dart';
@@ -306,7 +307,7 @@ class _CategoryProductScreenState extends State<CategoryProductScreen> {
                                                                 ? Theme.of(
                                                                     context,
                                                                   ).canvasColor
-                                                                : Colors.black,
+                                                                : context.appColors.heading,
                                                           ),
                                                     ),
                                                   ),
@@ -382,7 +383,7 @@ class _CategoryProductScreenState extends State<CategoryProductScreen> {
                                                               ? Theme.of(
                                                                   context,
                                                                 ).canvasColor
-                                                              : Colors.black,
+                                                              : context.appColors.heading,
                                                         ),
                                                       ),
                                                     ),

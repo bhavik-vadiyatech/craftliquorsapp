@@ -70,7 +70,7 @@ class DetailsAppBarWidgetState extends State<DetailsAppBarWidget>
         },
       ),
       elevation: 1,
-      shadowColor: Colors.grey.withValues(alpha: 0.3),
+      shadowColor: Theme.of(context).shadowColor,
       backgroundColor: Theme.of(context).cardColor,
       title: Text(
         widget.title!,

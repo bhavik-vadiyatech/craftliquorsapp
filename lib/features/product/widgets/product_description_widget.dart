@@ -7,12 +7,17 @@ import 'package:craft_discount_liquors/features/product/widgets/rating_line_widg
 import 'package:craft_discount_liquors/helper/html_string_checker.dart';
 import 'package:craft_discount_liquors/helper/responsive_helper.dart';
 import 'package:craft_discount_liquors/localization/language_constraints.dart';
+import 'package:craft_discount_liquors/utill/app_colors.dart';
 import 'package:craft_discount_liquors/utill/color_resources.dart';
 import 'package:craft_discount_liquors/utill/dimensions.dart';
 import 'package:craft_discount_liquors/utill/styles.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+/// Converts a [Color] to a `#RRGGBB` string for HtmlWidget custom styles.
+String _toCssHex(Color color) =>
+    '#${(color.toARGB32() & 0xFFFFFF).toRadixString(16).padLeft(6, '0')}';
 
 class ProductDescriptionWidget extends StatelessWidget {
   final Function(int index) onTabChange;
@@ -166,7 +171,25 @@ class ProductDescriptionWidget extends StatelessWidget {
                                 : getTranslated('no_description', context),
                             textStyle: poppinsRegular.copyWith(
                               fontSize: Dimensions.fontSizeSmall,
+                              color: context.appColors.heading,
                             ),
+                            // The backend description carries inline styles
+                            // from the admin editor (e.g.
+                            // style="color: rgb(0,0,0)") which override
+                            // `textStyle` and stay black in dark mode.
+                            // customStylesBuilder is applied with higher
+                            // precedence than inline styles, so force the
+                            // active theme's colours here.
+                            customStylesBuilder: (element) {
+                              if (element.localName == 'a') {
+                                return {
+                                  'color': _toCssHex(context.appColors.brand),
+                                };
+                              }
+                              return {
+                                'color': _toCssHex(context.appColors.heading),
+                              };
+                            },
                             onTapUrl: (String url) {
                               return launchUrl(Uri.parse(url));
                             },
@@ -287,7 +310,7 @@ class ProductDescriptionWidget extends StatelessWidget {
                             BoxShadow(
                               offset: Offset(0, 1),
                               blurRadius: 8,
-                              color: Colors.black.withValues(alpha: 0.08),
+                              color: context.appColors.shadow,
                             ),
                           ],
                         ),
