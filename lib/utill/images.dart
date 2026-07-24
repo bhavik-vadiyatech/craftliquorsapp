@@ -27,6 +27,7 @@ class Images {
   static const String profilePlaceholder = 'assets/image/pro_place_holder.png';
   static const String google = 'assets/image/google.png';
   static const String faq = 'assets/image/faq.png';
+  static const String helpCenterBanner = 'assets/image/help_center_banner.png';
   static const String loyaltyIcon = 'assets/image/loyalty_icon.png';
   static const String referralIcon = 'assets/image/referral_icon.png';
   static const String earningImage = 'assets/image/earning.png';

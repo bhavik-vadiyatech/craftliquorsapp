@@ -4,6 +4,7 @@ import 'package:craft_discount_liquors/common/enums/html_type_enum.dart';
 import 'package:craft_discount_liquors/common/widgets/custom_image_widget.dart';
 import 'package:craft_discount_liquors/common/widgets/custom_pop_scope_handel_deep_link_widget.dart';
 import 'package:craft_discount_liquors/features/html/widgets/about_us_view_widget.dart';
+import 'package:craft_discount_liquors/features/html/widgets/faq_page_view_widget.dart';
 import 'package:craft_discount_liquors/features/html/widgets/policy_page_view_widget.dart';
 import 'package:craft_discount_liquors/helper/responsive_helper.dart';
 import 'package:craft_discount_liquors/utill/app_colors.dart';
@@ -128,6 +129,20 @@ class HtmlViewerScreen extends StatelessWidget {
           backgroundColor: context.appColors.sectionBackground,
           appBar: appBar,
           body: AboutUsViewWidget(
+            htmlDescription: data,
+            imageUrl: imageUrl,
+          ),
+        ),
+      );
+    }
+
+    // Premium FAQ / Help Center layout.
+    if (htmlType == HtmlType.faq) {
+      return CustomPopScopeHandelDeepLinkWidget(
+        child: Scaffold(
+          backgroundColor: context.appColors.sectionBackground,
+          appBar: appBar,
+          body: FaqPageViewWidget(
             htmlDescription: data,
             imageUrl: imageUrl,
           ),
